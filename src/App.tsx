@@ -1,9 +1,10 @@
 import { Layout } from "@/components/Layout";
+import { ManageTracker } from "@/pages/manage-tracker/ManageTracker";
 
 function App() {
   return (
     <Layout>
-      <section className="h-full">Main Body</section>
+      <ManageTracker></ManageTracker>
     </Layout>
   );
 }

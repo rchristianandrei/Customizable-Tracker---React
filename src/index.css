@@ -122,3 +122,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+button {
+  @apply border cursor-pointer rounded;
+}
+
+button:hover {
+  @apply opacity-75;
+}
