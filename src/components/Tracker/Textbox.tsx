@@ -1,10 +1,9 @@
-import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   TextboxTypeDefaultValue,
   type TextboxType,
 } from "@/types/tracker/components/Textbox";
+import { BaseComponent } from "@/components/Tracker/BaseComponent";
 
 type TextboxProps = {
   textbox?: TextboxType;
@@ -18,13 +17,8 @@ export function Textbox({
   onClick,
 }: TextboxProps) {
   return (
-    <Field
-      className={`absolute border rounded ${clicked ? "border-foreground" : "border-background"}`}
-      onClick={onClick}
-      style={{ width: textbox.Width, left: textbox.Left, top: textbox.Top }}
-    >
-      <Label>{textbox.Name}</Label>
+    <BaseComponent clicked={clicked} component={textbox} onClick={onClick}>
       <Input type="text" placeholder="placeholder"></Input>
-    </Field>
+    </BaseComponent>
   );
 }
