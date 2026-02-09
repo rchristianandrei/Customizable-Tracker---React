@@ -4,7 +4,8 @@ import { Label } from "@/components/ui/label";
 import { useTracker } from "@/contexts/TrackerContext";
 
 export function ComponentSettings() {
-  const { setTracker, selectedComponent, setSelectedComponent } = useTracker();
+  const { tracker, setTracker, selectedComponent, setSelectedComponent } =
+    useTracker();
 
   if (!selectedComponent) {
     throw Error("Selected Component is Null!!");
@@ -27,7 +28,11 @@ export function ComponentSettings() {
   }
 
   function changePosition(Top: number, Left: number) {
-    if (Top < 0 || Top > 549 || Left < 0 || Left > 398) return;
+    const yRestriction = Top < 0 || Top > 549;
+    const xRestriction =
+      Left < 0 || Left > tracker.Width - (selectedComponent?.Width ?? 0);
+
+    if (yRestriction || xRestriction) return;
 
     setSelectedComponent((c) => {
       if (!c) return c;

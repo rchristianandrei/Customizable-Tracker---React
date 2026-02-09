@@ -6,7 +6,7 @@ export const TextboxTypeDefaultValue: TextboxType = {
   Id: 0,
   Type: "TextboxType",
   Name: "Textbox",
-  Width: "200px",
+  Width: 200,
   Left: 20,
   Top: 20,
 };

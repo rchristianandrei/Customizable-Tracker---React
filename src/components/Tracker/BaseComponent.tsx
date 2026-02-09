@@ -21,7 +21,7 @@ export function BaseComponent({
       className={`absolute border rounded gap-1 ${clicked ? "border-foreground" : "border-background"}`}
       onClick={onClick}
       style={{
-        width: component.Width,
+        width: `${component.Width}px`,
         left: `${component.Left}px`,
         top: `${component.Top}px`,
       }}
