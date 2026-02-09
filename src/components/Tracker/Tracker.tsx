@@ -17,7 +17,7 @@ export function TrackerComponent({ style }: TrackerProps) {
       <section className="border-b border-foreground flex items-center justify-center py-4 h-15">
         {tracker.Name}
       </section>
-      <section className="flex-1 relative">
+      <section className="flex-1 relative overflow-hidden">
         {tracker.Components.map((c, i) => (
           <TrackerComponentFactory key={i} component={c} />
         ))}

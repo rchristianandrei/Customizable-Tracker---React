@@ -47,6 +47,24 @@ export function ComponentSettings() {
           value={selectedComponent.Name}
         ></Input>
       </Field>
+      <Field>
+        <Label>X</Label>
+        <Input
+          name="Left"
+          onChange={handleChange}
+          type="text"
+          value={selectedComponent.Left}
+        ></Input>
+      </Field>
+      <Field>
+        <Label>Y</Label>
+        <Input
+          name="Top"
+          onChange={handleChange}
+          type="text"
+          value={selectedComponent.Top}
+        ></Input>
+      </Field>
       <div className="flex justify-center gap-5">
         <button
           className="text-red-600"
