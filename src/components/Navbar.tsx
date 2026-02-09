@@ -1,6 +1,6 @@
 export function Navbar() {
   return (
-    <section className="w-50 border-r">
+    <section className="w-50 border-r border-foreground">
       <nav>
         <ul>
           <li>Dashboard</li>

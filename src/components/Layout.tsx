@@ -8,7 +8,7 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <section className="h-screen w-screen flex flex-col bg-[#2c2c2c] text-white">
+    <section className="h-screen w-screen flex flex-col">
       <Heading></Heading>
       <section className="flex-1 overflow-auto flex flex-row">
         <Navbar></Navbar>

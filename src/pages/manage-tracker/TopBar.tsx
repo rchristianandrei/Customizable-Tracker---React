@@ -22,7 +22,7 @@ export function TopBar() {
   }, []);
 
   return (
-    <section className="border-b flex gap-2 p-2">
+    <section className="border-b border-foreground flex gap-2 p-2">
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setOpen((prev) => !prev)}
@@ -32,16 +32,16 @@ export function TopBar() {
         </button>
 
         {open && (
-          <div className="absolute left-0 mt-2 w-48 border bg-[#242424] shadow-lg">
+          <div className="absolute left-0 mt-2 w-48 border border-foreground shadow-lg">
             <ul className="py-1 text-sm">
               <li>
-                <button className="w-full px-4 py-2 text-left hover:bg-white hover:text-black">
+                <button className="w-full px-4 py-2 text-left hover:bg-black hover:text-white">
                   Textbox
                 </button>
               </li>
 
               <li>
-                <button className="w-full px-4 py-2 text-left hover:bg-white hover:text-black">
+                <button className="w-full px-4 py-2 text-left hover:bg-black hover:text-white">
                   Dropdownbox
                 </button>
               </li>

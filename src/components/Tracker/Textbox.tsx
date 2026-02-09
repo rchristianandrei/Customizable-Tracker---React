@@ -1,18 +1,20 @@
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  TextboxTypeDefaultValue,
+  type TextboxType,
+} from "@/types/tracker/components/Textbox";
 
 type TextboxProps = {
-  textbox?: { width: string; left: string; top: string };
+  textbox?: TextboxType;
 };
 
-export function Textbox({
-  textbox = { width: "200px", left: "20px", top: "20px" },
-}: TextboxProps) {
+export function Textbox({ textbox = TextboxTypeDefaultValue }: TextboxProps) {
   return (
     <Field
-      className="absolute border rounded border-[#2c2c2c]"
-      style={{ width: textbox.width, left: textbox.left, top: textbox.top }}
+      className="absolute border rounded border-background"
+      style={{ width: textbox.Width, left: textbox.Left, top: textbox.Top }}
     >
       <Label>Sample Text</Label>
       <Input type="text" placeholder="placeholder"></Input>
