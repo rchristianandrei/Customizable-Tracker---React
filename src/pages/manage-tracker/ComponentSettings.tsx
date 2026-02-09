@@ -6,13 +6,13 @@ import { useTracker } from "@/contexts/TrackerContext";
 export function ComponentSettings() {
   const { setTracker, selectedComponent, setSelectedComponent } = useTracker();
 
-  const selectedComponentId = selectedComponent?.Id;
+  //   const selectedComponentId = selectedComponent?.Id;
 
   if (!selectedComponent) {
     throw Error("Selected Component is Null!!");
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSelectedComponent((c) => {
       if (!c) return c;
       return { ...c, [e.target.name]: e.target.value };
@@ -21,12 +21,21 @@ export function ComponentSettings() {
     setTracker((prev) => ({
       ...prev,
       Components: prev.Components.map((c) =>
-        c.Id === selectedComponentId
+        c.Id === selectedComponent?.Id
           ? { ...c, [e.target.name]: e.target.value }
           : c,
       ),
     }));
-  };
+  }
+
+  function deleteComponent() {
+    setSelectedComponent((c) => null);
+
+    setTracker((prev) => ({
+      ...prev,
+      Components: prev.Components.filter((c) => c.Id !== selectedComponent?.Id),
+    }));
+  }
 
   return (
     <div className="flex flex-col gap-1">
@@ -40,10 +49,18 @@ export function ComponentSettings() {
           value={selectedComponent.Name}
         ></Input>
       </Field>
-
-      <button type="button" onClick={() => setSelectedComponent(null)}>
-        Close
-      </button>
+      <div className="flex justify-center gap-5">
+        <button
+          className="text-red-600"
+          type="button"
+          onClick={deleteComponent}
+        >
+          Delete
+        </button>
+        <button type="button" onClick={() => setSelectedComponent(null)}>
+          Close
+        </button>
+      </div>
     </div>
   );
 }
