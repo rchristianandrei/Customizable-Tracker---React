@@ -23,6 +23,11 @@ public abstract class BaseRepo<T> : IBaseRepo<T> where T : IBaseModel
         list.Add(item);
     }
 
+    public void Update(T item)
+    {
+
+    }
+
     public bool Delete(T item)
     {
         return list.Remove(item);

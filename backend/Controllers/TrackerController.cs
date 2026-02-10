@@ -45,10 +45,18 @@ public class TrackerController(ITrackerRepo trackerRepo, ITrackerComponentRepo t
         return Ok(tracker);
     }
 
-    //[HttpPut("{id}")]
-    //public void Put(int id, [FromBody] string value)
-    //{
-    //}
+    [HttpPut("{id}")]
+    public IActionResult Put(int id, [FromBody] UpdateTrackerDto value)
+    {
+        var tracker = trackerRepo.GetById(id);
+        if (tracker == null) return NotFound();
+
+        tracker.Name = value.Name;
+
+        trackerRepo.Update(tracker);
+
+        return Ok(tracker);
+    }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)

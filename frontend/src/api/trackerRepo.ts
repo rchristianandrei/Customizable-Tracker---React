@@ -15,4 +15,7 @@ export const trackerRepo = {
       name: createData.name,
     });
   },
+  Update: (tracker: TrackerType) => {
+    return api.put<TrackerType>(`${prefix}/${tracker.id}`, tracker);
+  },
 };
