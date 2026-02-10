@@ -1,6 +1,11 @@
+using backend.Interfaces;
+using backend.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<ITrackerRepo, TrackerRepo>();
+builder.Services.AddScoped<ITrackerComponentRepo, TrackerComponentRepo>();
 
 builder.Services.AddCors(options =>
 {

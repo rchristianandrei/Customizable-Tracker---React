@@ -1,4 +1,5 @@
 ﻿using backend.DTOs.Tracker;
+using backend.Interfaces;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,24 +7,25 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TrackerController : ControllerBase
+public class TrackerController(ITrackerRepo trackerRepo, ITrackerComponentRepo trackerComponentRepo) : ControllerBase
 {
-    public static readonly List<Tracker> trackers = [];
+    private readonly ITrackerRepo trackerRepo = trackerRepo;
+    private readonly ITrackerComponentRepo trackerComponentRepo = trackerComponentRepo;
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        return Ok(trackers);
+        return Ok(this.trackerRepo.GetAll());
     }
 
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-        var tracker = trackers.Find((t) => t.Id == id);
+        var tracker = trackerRepo.GetById(id);
 
         if (tracker == null) return NotFound();
 
-        var components = TrackerComponentController.components.FindAll(t => t.TrackerId == tracker.Id);
+        var components = trackerComponentRepo.GetAllByTrackerId(id);
         tracker.Components = components;
 
         return Ok(tracker);
@@ -34,12 +36,11 @@ public class TrackerController : ControllerBase
     {
         var tracker = new Tracker()
         {
-            Id = trackers.Count + 1,
             Name = value.Name,
             DateTimeCreated = DateTime.Now,
         };
 
-        trackers.Add(tracker);
+        this.trackerRepo.Create(tracker);
 
         return Ok(tracker);
     }
@@ -52,11 +53,11 @@ public class TrackerController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var tracker = trackers.Find((t) => t.Id == id);
+        var tracker = trackerRepo.GetById(id);
 
         if (tracker == null) return NotFound();
 
-        trackers.Remove(tracker);
+        this.trackerRepo.Delete(tracker);
 
         return NoContent();
     }
