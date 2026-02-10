@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { trackerRepo } from "@/api/trackerRepo";
 import { useTracker } from "@/contexts/TrackerContext";
 import { TrackerComponent } from "@/components/Tracker/Tracker";
 import { Layout } from "@/components/Layout";
@@ -9,19 +8,10 @@ import { SettingsBar } from "@/pages/manage-tracker/edit-tracker/editor/Settings
 
 export function EditTracker() {
   const { id } = useParams();
-  const { tracker, setTracker } = useTracker();
+  const { tracker, onLoad } = useTracker();
 
   useEffect(() => {
-    async function OnLoad() {
-      try {
-        const result = await trackerRepo.GetById(Number(id));
-        const data = result.data;
-        setTracker(data);
-      } catch (err) {
-        setTracker(null);
-      }
-    }
-    OnLoad();
+    onLoad(Number(id));
   }, []);
 
   return (

@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<ITrackerRepo, TrackerRepo>();
 builder.Services.AddScoped<ITrackerComponentRepo, TrackerComponentRepo>();
+builder.Services.AddScoped<TextboxRepo>();
 
 builder.Services.AddCors(options =>
 {

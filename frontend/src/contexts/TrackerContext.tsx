@@ -5,6 +5,8 @@ import {
 } from "@/types/tracker/Tracker";
 import type { BaseComponent } from "@/types/tracker/components/BaseComponent";
 import type { TrackerComponentType } from "@/types/tracker/components/TrackerComponent";
+import { trackerRepo } from "@/api/trackerRepo";
+import { textboxRepo } from "@/api/textboxRepo";
 
 type TrackerProviderProps = {
   children: React.ReactNode;
@@ -18,6 +20,7 @@ const TrackerContext = createContext<
       setSelectedComponent: React.Dispatch<
         React.SetStateAction<TrackerComponentType | null>
       >;
+      onLoad: (trackerId: number) => Promise<void>;
     }
   | undefined
 >(undefined);
@@ -29,9 +32,28 @@ export function TrackerProvider({ children }: TrackerProviderProps) {
   const [selectedComponent, setSelectedComponent] =
     useState<TrackerComponentType | null>(null);
 
+  async function onLoad(trackerId: number) {
+    try {
+      const result = await trackerRepo.GetById(trackerId);
+      const data = result.data;
+      const textboxes = await textboxRepo.GetAll(trackerId);
+
+      data.components = [...data.components, ...textboxes.data];
+      setTracker(result.data);
+    } catch (err) {
+      setTracker(null);
+    }
+  }
+
   return (
     <TrackerContext.Provider
-      value={{ tracker, setTracker, selectedComponent, setSelectedComponent }}
+      value={{
+        tracker,
+        setTracker,
+        selectedComponent,
+        setSelectedComponent,
+        onLoad,
+      }}
     >
       {children}
     </TrackerContext.Provider>
