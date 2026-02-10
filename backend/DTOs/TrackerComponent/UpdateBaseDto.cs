@@ -6,6 +6,8 @@ public class UpdateBaseDto
 
     public string Name { get; set; } = string.Empty;
 
+    public string Placeholder { get; set; } = string.Empty;
+
     public int Width { get; set; }
 
     public int X { get; set; }

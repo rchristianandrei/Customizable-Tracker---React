@@ -22,7 +22,7 @@ export function TrackerComponentFactory({
     case "Dropdownbox":
       return (
         <Dropdownbox
-          textbox={component}
+          dropdownbox={component}
           clicked={clicked}
           onClick={triggerSelectComponentEvent}
         ></Dropdownbox>

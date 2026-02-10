@@ -80,6 +80,15 @@ export function ComponentSettings() {
             ></Input>
           </Field>
           <Field>
+            <Label>Placeholder</Label>
+            <Input
+              name="placeholder"
+              onChange={handleChange}
+              type="text"
+              value={selectedComponent.placeholder}
+            ></Input>
+          </Field>
+          <Field>
             <Label>Width</Label>
             <Input
               name="width"

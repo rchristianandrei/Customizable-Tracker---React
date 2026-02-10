@@ -7,13 +7,10 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox";
 import { BaseComponent } from "@/components/Tracker/BaseComponent";
-import {
-  DropdownboxTypeDefaultValue,
-  type DropdownboxType,
-} from "@/types/tracker/components/Dropdownbox";
+import { type DropdownboxType } from "@/types/tracker/components/Dropdownbox";
 
-type TextboxProps = {
-  textbox?: DropdownboxType;
+type DropdownboxProps = {
+  dropdownbox: DropdownboxType;
   clicked?: boolean;
   onClick?: () => void;
 };
@@ -21,14 +18,14 @@ type TextboxProps = {
 const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"];
 
 export function Dropdownbox({
-  textbox = DropdownboxTypeDefaultValue,
+  dropdownbox,
   clicked = false,
   onClick,
-}: TextboxProps) {
+}: DropdownboxProps) {
   return (
-    <BaseComponent clicked={clicked} component={textbox} onClick={onClick}>
+    <BaseComponent clicked={clicked} component={dropdownbox} onClick={onClick}>
       <Combobox items={frameworks}>
-        <ComboboxInput placeholder="Select a framework" />
+        <ComboboxInput placeholder={dropdownbox.placeholder} />
         <ComboboxContent>
           <ComboboxEmpty>No items found.</ComboboxEmpty>
           <ComboboxList>
