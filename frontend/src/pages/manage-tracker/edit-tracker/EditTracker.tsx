@@ -9,7 +9,7 @@ import { SettingsBar } from "@/pages/manage-tracker/edit-tracker/SettingsBar";
 
 export function EditTracker() {
   const { id } = useParams();
-  const { tracker, setTracker } = useTracker();
+  const { tracker, setTracker, setSelectedComponent } = useTracker();
 
   useEffect(() => {
     async function OnLoad() {
@@ -27,15 +27,15 @@ export function EditTracker() {
   return (
     <Layout>
       {tracker && (
-        <section className="h-full flex flex-col">
-          <TopBar></TopBar>
-          <section className="flex-1 overflow-auto flex flex-row">
-            <section className="flex-1 overflow-auto flex items-center justify-center">
-              <TrackerComponent></TrackerComponent>
-            </section>
-            <section className="border-l border-foreground w-100 p-2">
-              <SettingsBar></SettingsBar>
-            </section>
+        <section className="h-full overflow-auto flex flex-row">
+          <section className="flex-1 overflow-auto flex flex-col">
+            <TopBar></TopBar>
+            <div className="flex-1 flex items-center justify-center">
+              <TrackerComponent tracker={tracker}></TrackerComponent>
+            </div>
+          </section>
+          <section className="border-l border-foreground w-100 p-2">
+            <SettingsBar></SettingsBar>
           </section>
         </section>
       )}

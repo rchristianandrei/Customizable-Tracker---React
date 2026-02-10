@@ -1,16 +1,13 @@
 import type { CSSProperties } from "react";
 import { TrackerComponentFactory } from "./TrackerComponentFactory";
-import { useTracker } from "@/contexts/TrackerContext";
+import type { TrackerType } from "@/types/tracker/Tracker";
 
 type TrackerProps = {
+  tracker: TrackerType;
   style?: CSSProperties;
 };
 
-export function TrackerComponent({ style }: TrackerProps) {
-  const { tracker } = useTracker();
-
-  if (!tracker) return;
-
+export function TrackerComponent({ tracker, style }: TrackerProps) {
   return (
     <section
       className="flex flex-col border border-foreground rounded shadow h-175"

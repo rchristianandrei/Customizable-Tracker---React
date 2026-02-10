@@ -18,20 +18,6 @@ export function TrackerSettings() {
     });
   };
 
-  async function SaveTracker() {
-    if (!tracker) return;
-
-    try {
-      await trackerRepo.Update(tracker);
-
-      for (const component of tracker.components) {
-        await trackerComponentRepo.Update(component);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return (
     <>
       {tracker && (
@@ -46,15 +32,6 @@ export function TrackerSettings() {
               value={tracker.name}
             ></Input>
           </Field>
-          <div className="flex justify-center">
-            <button
-              type="button"
-              className="bg-green-900 px-4 py-1 border border-green-100 text-green-100 rounded cursor-pointer"
-              onClick={SaveTracker}
-            >
-              Save
-            </button>
-          </div>
         </div>
       )}
     </>

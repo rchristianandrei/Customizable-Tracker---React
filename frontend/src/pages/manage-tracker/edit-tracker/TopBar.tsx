@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTracker } from "@/contexts/TrackerContext";
 import type { BaseComponent } from "@/types/tracker/components/BaseComponent";
 import { trackerComponentRepo } from "@/api/trackerComponentRepo";
+import { trackerRepo } from "@/api/trackerRepo";
 
 export function TopBar() {
   const { tracker, setTracker } = useTracker();
@@ -47,8 +48,22 @@ export function TopBar() {
     });
   }
 
+  async function SaveTracker() {
+    if (!tracker) return;
+
+    try {
+      await trackerRepo.Update(tracker);
+
+      for (const component of tracker.components) {
+        await trackerComponentRepo.Update(component);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <section className="border-b border-foreground flex gap-2 p-2">
+    <section className="border-b border-foreground flex items-center justify-between gap-2 p-2">
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setOpen((prev) => !prev)}
@@ -81,6 +96,13 @@ export function TopBar() {
           </div>
         )}
       </div>
+      <button
+        type="button"
+        className="bg-green-900 px-4 py-1 border border-green-100 text-green-100 rounded cursor-pointer"
+        onClick={SaveTracker}
+      >
+        Save
+      </button>
     </section>
   );
 }
