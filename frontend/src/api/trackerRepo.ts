@@ -13,4 +13,9 @@ export const TrackerRepo = {
   GetById: (id: number): TrackerType | null => {
     return TrackerTypeDefaultValue;
   },
+  Create: (createData: { name: string }) => {
+    return api.post<TrackerType>(prefix, {
+      name: createData.name,
+    });
+  },
 };

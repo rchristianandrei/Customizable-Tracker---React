@@ -15,8 +15,11 @@ export function ManageTracker() {
     OnLoad();
   }, []);
 
-  function CreateNew() {
-    console.log("Create New Tracker Event");
+  async function CreateNew() {
+    const result = await TrackerRepo.Create({ name: "Tracker name" });
+    const data = result.data;
+    console.log(data);
+    setTrackers((t) => [...t, data]);
   }
 
   return (
