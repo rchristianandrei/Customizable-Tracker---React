@@ -1,6 +1,5 @@
 import { api } from "@/api/axios";
 import type { BaseComponent } from "@/types/tracker/components/BaseComponent";
-import { Component } from "lucide-react";
 
 const prefix = "/trackerComponent";
 

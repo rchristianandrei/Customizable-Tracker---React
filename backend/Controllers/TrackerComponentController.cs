@@ -67,6 +67,7 @@ public class TrackerComponentController(ITrackerRepo trackerRepo, ITrackerCompon
         if (component == null) return NotFound();
 
         component.Name = value.Name;
+        component.Width = value.Width;
         component.X = value.X;
         component.Y = value.Y;
 

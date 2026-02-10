@@ -80,9 +80,18 @@ export function ComponentSettings() {
             ></Input>
           </Field>
           <Field>
+            <Label>Width</Label>
+            <Input
+              name="width"
+              onChange={handleChange}
+              type="number"
+              value={selectedComponent.width}
+            ></Input>
+          </Field>
+          <Field>
             <Label>X</Label>
             <Input
-              name="Left"
+              name="x"
               onChange={(e) =>
                 changePosition(selectedComponent.y, Number(e.target.value))
               }
@@ -93,7 +102,7 @@ export function ComponentSettings() {
           <Field>
             <Label>Y</Label>
             <Input
-              name="Top"
+              name="y"
               onChange={(e) =>
                 changePosition(Number(e.target.value), selectedComponent.x)
               }
