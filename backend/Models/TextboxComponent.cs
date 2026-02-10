@@ -1,6 +1,8 @@
-﻿namespace backend.Models;
+﻿using backend.Enums;
+
+namespace backend.Models;
 
 public class TextboxComponent : TrackerBaseComponent
 {
-    public override string Type => "Textbox";
+    public override string Type => TrackerComponentEnums.Textbox.ToString();
 }
