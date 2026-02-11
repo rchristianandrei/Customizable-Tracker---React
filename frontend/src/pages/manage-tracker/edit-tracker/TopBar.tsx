@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useTracker } from "@/contexts/TrackerContext";
-import type { BaseComponent } from "@/types/tracker/components/BaseComponent";
 import { trackerComponentRepo } from "@/api/trackerComponentRepo";
 import { trackerRepo } from "@/api/trackerRepo";
+import { textboxRepo } from "@/api/textboxRepo";
+import type { TrackerComponentType } from "@/types/tracker/components/TrackerComponent";
 
 export function TopBar() {
   const { tracker, setTracker } = useTracker();
@@ -28,20 +29,20 @@ export function TopBar() {
 
   async function AddTextbox() {
     if (!tracker) return;
-    const result = await trackerComponentRepo.CreateTextbox(tracker.id);
+    const result = await textboxRepo.Create(tracker.id);
     const data = result.data;
     AddComponent(data);
   }
 
   async function AddDropdownbox() {
-    if (!tracker) return;
-    const result = await trackerComponentRepo.CreateDropdownbox(tracker.id);
-    const data = result.data;
-    console.log(data);
-    AddComponent(data);
+    // if (!tracker) return;
+    // const result = await trackerComponentRepo.CreateDropdownbox(tracker.id);
+    // const data = result.data;
+    // console.log(data);
+    // AddComponent(data);
   }
 
-  function AddComponent(component: BaseComponent) {
+  function AddComponent(component: TrackerComponentType) {
     setTracker((t) => {
       if (!t) return t;
       return { ...t, components: [...t.components, component] };

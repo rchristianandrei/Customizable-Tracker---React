@@ -6,7 +6,7 @@ public class Tracker : IBaseModel
 
     public string Name { get; set; } = string.Empty;
 
-    public List<TrackerBaseComponent> Components { get; set; } = [];
+    public ICollection<BaseComponent> Components { get; set; } = [];
 
     public DateTime DateTimeCreated { get; set; }
 }

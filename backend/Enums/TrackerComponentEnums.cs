@@ -3,5 +3,5 @@
 public enum TrackerComponentEnums
 {
     Textbox,
-    Dropdownbox
+    Dropdown
 }

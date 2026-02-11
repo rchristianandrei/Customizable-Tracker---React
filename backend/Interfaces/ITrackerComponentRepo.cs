@@ -2,7 +2,7 @@
 
 namespace backend.Interfaces;
 
-public interface ITrackerComponentRepo : IBaseRepo<TrackerBaseComponent>
+public interface ITrackerComponentRepo : IBaseRepo<BaseComponent>
 {
-    List<TrackerBaseComponent> GetAllByTrackerId(int trackerId);
+    List<BaseComponent> GetAllByTrackerId(int trackerId);
 }

@@ -1,41 +1,45 @@
-﻿using backend.DTOs.TrackerComponent;
-using backend.Interfaces;
+﻿using backend.Data;
+using backend.DTOs.TrackerComponent;
 using backend.Models;
-using backend.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TextboxController(ITrackerRepo trackerRepo, TextboxRepo textboxRepo) : ControllerBase
+public class TextboxController(AppDbContext context) : ControllerBase
 {
-    private readonly ITrackerRepo trackerRepo = trackerRepo;
-    private readonly TextboxRepo textboxRepo = textboxRepo;
+    private readonly AppDbContext context = context;
 
     [HttpGet("{trackerId}")]
-    public IActionResult GetAllByTrackerId(int trackerId)
+    public async Task<IActionResult> GetAllByTrackerId(int trackerId)
     {
-        return Ok(this.textboxRepo.GetAllByTrackerId(trackerId));
+        var textboxes = await this.context.TrackerComponents
+            .OfType<TextboxComponent>()
+            .Where(t => t.TrackerId == trackerId)
+            .ToListAsync();
+
+        return Ok(textboxes);
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] CreateTextboxDto value)
+    public async Task<IActionResult> Post([FromBody] CreateTextboxDto value)
     {
-        var tracker = this.trackerRepo.GetById(value.TrackerId);
+        var tracker = await this.context.Trackers.FindAsync(value.TrackerId);
         if (tracker == null) return NotFound("Tracker not found");
 
-        var textbox = new TextboxComponent()
+        BaseComponent textbox = new TextboxComponent()
         {
             Name = "Textbox",
             DateTimeCreated = DateTime.Now,
             TrackerId = value.TrackerId,
-            MaxLength = 20
         };
 
-        this.textboxRepo.Create(textbox);
+        await this.context.TrackerComponents.AddAsync(textbox);
+        await this.context.SaveChangesAsync();
 
-        return Ok(textbox);
+        return Ok();
     }
 
     [HttpPut("{id}")]

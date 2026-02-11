@@ -1,36 +1,56 @@
-﻿using backend.DTOs.Tracker;
+﻿using backend.Data;
+using backend.DTOs;
+using backend.DTOs.Textbox;
+using backend.DTOs.Tracker;
+using backend.DTOs.TrackerComponent;
 using backend.Enums;
 using backend.Interfaces;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TrackerController(ITrackerRepo trackerRepo, ITrackerComponentRepo trackerComponentRepo) : ControllerBase
+public class TrackerController(AppDbContext context) : ControllerBase
 {
-    private readonly ITrackerRepo trackerRepo = trackerRepo;
-    private readonly ITrackerComponentRepo trackerComponentRepo = trackerComponentRepo;
+    private readonly AppDbContext context = context;
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        return Ok(this.trackerRepo.GetAll());
+        var trackers = await this.context.Trackers.ToListAsync();
+        return Ok(trackers);
     }
 
     [HttpGet("{id}")]
-    public IActionResult Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
-        var tracker = trackerRepo.GetById(id);
+        var tracker = await this.context.Trackers.FindAsync(id);
 
         if (tracker == null) return NotFound();
 
-        return Ok(tracker);
+        var textboxes = await this.context.TextboxComponents.ToListAsync();
+
+        var components = new List<BaseComponentDto>();
+
+        components.AddRange([.. textboxes.Select(t => new TextboxDto{Id = t.Id, Name = t.Name, MaxLength = t.MaxLength})]);
+
+        var dto = new TrackerDto
+        {
+            Id = tracker.Id,
+            Name = tracker.Name,
+            DateTimeCreated = tracker.DateTimeCreated,
+            Components = components
+        };
+
+        return Ok(dto);
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] CreateTrackerDto value)
+    public async Task<IActionResult> Post([FromBody] CreateTrackerDto value)
     {
         var tracker = new Tracker()
         {
@@ -38,32 +58,34 @@ public class TrackerController(ITrackerRepo trackerRepo, ITrackerComponentRepo t
             DateTimeCreated = DateTime.Now,
         };
 
-        this.trackerRepo.Create(tracker);
+        await this.context.Trackers.AddAsync(tracker);
+        await this.context.SaveChangesAsync();
 
         return Ok(tracker);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] UpdateTrackerDto value)
+    public async Task<IActionResult> Put(int id, [FromBody] UpdateTrackerDto value)
     {
-        var tracker = trackerRepo.GetById(id);
+        var tracker = await this.context.Trackers.FindAsync(id);
         if (tracker == null) return NotFound();
 
         tracker.Name = value.Name;
 
-        trackerRepo.Update(tracker);
+        await this.context.SaveChangesAsync();
 
         return Ok(tracker);
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var tracker = trackerRepo.GetById(id);
+        var tracker = await this.context.Trackers.FindAsync(id);
 
         if (tracker == null) return NotFound();
 
-        this.trackerRepo.Delete(tracker);
+        this.context.Trackers.Remove(tracker);
+        await this.context.SaveChangesAsync();
 
         return NoContent();
     }

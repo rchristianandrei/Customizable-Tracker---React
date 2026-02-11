@@ -2,9 +2,9 @@
 
 namespace backend.Models;
 
-public class TextboxComponent : TrackerBaseComponent
+public class TextboxComponent : BaseComponent
 {
-    public override string Type => TrackerComponentEnums.Textbox.ToString();
+    public override TrackerComponentEnums Type => TrackerComponentEnums.Textbox;
 
-    public int MaxLength { get; set; }
+    public int MaxLength { get; set; } = 20;
 }

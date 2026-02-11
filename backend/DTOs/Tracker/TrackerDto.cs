@@ -1,6 +1,4 @@
-﻿using backend.Models;
-
-namespace backend.DTOs.Tracker;
+﻿namespace backend.DTOs.Tracker;
 
 public class TrackerDto
 {
@@ -8,7 +6,7 @@ public class TrackerDto
 
     public string Name { get; set; } = string.Empty;
 
-    public List<TrackerBaseComponent> Components { get; set; } = [];
+    public ICollection<BaseComponentDto> Components { get; set; } = [];
 
     public DateTime DateTimeCreated { get; set; }
 }

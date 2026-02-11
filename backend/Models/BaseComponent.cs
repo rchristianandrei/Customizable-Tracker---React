@@ -1,14 +1,19 @@
-﻿namespace backend.Models;
+﻿using backend.Enums;
 
-public abstract class TrackerBaseComponent : IBaseModel
+namespace backend.Models;
+
+public abstract class BaseComponent : IBaseModel
 {
     public int Id { get; set; }
+
+    public int TrackerId { get; set; }
+    public Tracker Tracker { get; set; } = null!;
+
+    public abstract TrackerComponentEnums Type { get; }
 
     public string Name { get; set; } = string.Empty;
 
     public string Placeholder { get; set; } = string.Empty;
-
-    public abstract string Type { get; }
 
     public int Width { get; set; } = 200;
 
@@ -16,9 +21,7 @@ public abstract class TrackerBaseComponent : IBaseModel
 
     public int Y { get; set; } = 0;
 
-    public Tracker? Tracker { get; set; }
-
-    public int TrackerId { get; set; }
+    public bool IsRequired { get; set; } = false;
 
     public DateTime DateTimeCreated { get; set; }
 }
