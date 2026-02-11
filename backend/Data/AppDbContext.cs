@@ -13,6 +13,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
     public DbSet<DropdownComponent> DropdownComponents => Set<DropdownComponent>();
 
+    public DbSet<DropdownOption> DropdownOptionComponents => Set<DropdownOption>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Tracker

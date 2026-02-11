@@ -1,7 +1,9 @@
-﻿namespace backend.DTOs;
+﻿using backend.DTOs.DropdownOption;
+
+namespace backend.DTOs;
 
 public class DropdownDto : BaseComponentDto
 {
-    public ICollection<string> Options { get; set; } = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"];
+    public ICollection<DropdownOptionDto> Options { get; set; } = [];
 
 }

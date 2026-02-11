@@ -8,20 +8,52 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { DropdownboxType } from "@/types/tracker/components/Dropdownbox";
 import { CreateOption } from "./CreateOption";
+import { useTracker } from "@/contexts/TrackerContext";
+import { dropdownOptionRepo } from "@/api/dropdownOptionRepo";
+import type { DropdownboxType } from "@/types/tracker/components/Dropdownbox";
 
-type DropdownSettingsProps = {
-  dropdown: DropdownboxType;
-};
+export function DropdownSettings() {
+  const {
+    tracker,
+    setTracker,
+    selectedComponent: dropdown,
+    setSelectedComponent,
+  } = useTracker();
 
-export function DropdownSettings({ dropdown }: DropdownSettingsProps) {
+  if (!dropdown || dropdown.type !== "Dropdown") return;
+
+  async function deleteOption(id: number) {
+    if (!tracker || !dropdown || dropdown.type !== "Dropdown") return;
+
+    try {
+      await dropdownOptionRepo.Delete(id);
+
+      const newComponent: DropdownboxType = {
+        ...dropdown,
+        options: dropdown.options.filter((o) => o.id !== id),
+      };
+
+      setSelectedComponent((c) => {
+        if (!c || c.type !== "Dropdown") return c;
+        return newComponent;
+      });
+
+      setTracker((t) => {
+        if (!t) return t;
+        return {
+          ...t,
+          components: [...t.components, newComponent],
+        };
+      });
+    } catch (error) {}
+  }
+
   return (
     <>
       <Dialog>
@@ -37,7 +69,7 @@ export function DropdownSettings({ dropdown }: DropdownSettingsProps) {
           <div className="flex justify-end">
             <CreateOption></CreateOption>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 overflow-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -48,10 +80,16 @@ export function DropdownSettings({ dropdown }: DropdownSettingsProps) {
               <TableBody className="">
                 {dropdown.options.map((o, i) => (
                   <TableRow key={i}>
-                    <TableCell className="font-medium">{o}</TableCell>
+                    <TableCell className="font-medium">{o.value}</TableCell>
                     <TableCell className="text-right flex justify-end gap-1">
                       <button type="button">Edit</button>
-                      <button type="button">Delete</button>
+                      <button
+                        type="button"
+                        className="border border-red-900 rounded p-1 text-red-900 bg-red-100 cursor-pointer"
+                        onClick={() => deleteOption(o.id)}
+                      >
+                        Delete
+                      </button>
                     </TableCell>
                   </TableRow>
                 ))}

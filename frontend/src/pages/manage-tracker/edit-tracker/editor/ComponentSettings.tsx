@@ -129,7 +129,7 @@ export function ComponentSettings() {
             <TextboxSettings textbox={selectedComponent}></TextboxSettings>
           )}
           {selectedComponent.type === "Dropdown" && (
-            <DropdownSettings dropdown={selectedComponent}></DropdownSettings>
+            <DropdownSettings></DropdownSettings>
           )}
           <div className="flex justify-center gap-5">
             <button

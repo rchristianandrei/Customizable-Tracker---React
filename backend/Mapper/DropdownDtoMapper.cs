@@ -5,16 +5,17 @@ namespace backend.Mapper;
 
 public static class DropdownDtoMapper
 {
-    public static DropdownDto ToDto(this DropdownComponent textbox)
+    public static DropdownDto ToDto(this DropdownComponent dropdown)
     {
         return new DropdownDto
         {
-            Id = textbox.Id,
-            Name = textbox.Name,
-            Placeholder = textbox.Placeholder,
-            Width = textbox.Width,
-            X = textbox.X,
-            Y = textbox.Y
+            Id = dropdown.Id,
+            Name = dropdown.Name,
+            Placeholder = dropdown.Placeholder,
+            Width = dropdown.Width,
+            X = dropdown.X,
+            Y = dropdown.Y,
+            Options = [.. dropdown.Options.Select(o => o.ToDto())],
         };
     }
 }

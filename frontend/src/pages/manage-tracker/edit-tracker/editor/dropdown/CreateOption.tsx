@@ -1,3 +1,4 @@
+import { dropdownOptionRepo } from "@/api/dropdownOptionRepo";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,16 +14,14 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useTracker } from "@/contexts/TrackerContext";
+import type { DropdownboxType } from "@/types/tracker/components/Dropdownbox";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 
 const formSchema = z.object({
-  label: z
-    .string()
-    .min(1, "Label must be at least 1 character.")
-    .max(32, "Label must be at most 32 characters."),
   value: z
     .string()
     .min(1, "Value must be at least 1 character.")
@@ -30,18 +29,37 @@ const formSchema = z.object({
 });
 
 export function CreateOption() {
+  const { tracker, setTracker, selectedComponent, setSelectedComponent } =
+    useTracker();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      label: "",
       value: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    form.reset();
-    console.log(data);
-    console.log("submit");
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    if (!tracker || !selectedComponent || selectedComponent.type !== "Dropdown")
+      return;
+
+    try {
+      const result = await dropdownOptionRepo.Create({
+        dropdownId: selectedComponent.id,
+        value: data.value,
+      });
+      form.reset();
+
+      const newComponent: DropdownboxType = {
+        ...selectedComponent,
+        options: [...selectedComponent.options, result.data],
+      };
+      setSelectedComponent(() => newComponent);
+      setTracker({
+        ...tracker,
+        components: [...tracker.components, newComponent],
+      });
+    } catch (error) {}
   }
 
   return (
@@ -57,25 +75,6 @@ export function CreateOption() {
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup className="gap-2">
-            <Controller
-              name="label"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">Label</FieldLabel>
-                  <Input
-                    {...field}
-                    id="form-rhf-demo-title"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="Ph"
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
             <Controller
               name="value"
               control={form.control}

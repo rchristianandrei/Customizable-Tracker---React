@@ -7,7 +7,10 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox";
 import { BaseComponent } from "@/components/Tracker/BaseComponent";
-import { type DropdownboxType } from "@/types/tracker/components/Dropdownbox";
+import {
+  type DropdownboxType,
+  type DropdownOption,
+} from "@/types/tracker/components/Dropdownbox";
 
 type DropdownboxProps = {
   dropdownbox: DropdownboxType;
@@ -22,16 +25,16 @@ export function Dropdownbox({
 }: DropdownboxProps) {
   return (
     <BaseComponent clicked={clicked} component={dropdownbox} onClick={onClick}>
-      <Combobox items={dropdownbox.options}>
+      <Combobox items={dropdownbox.options.map((o) => o.value)}>
         <ComboboxInput placeholder={dropdownbox.placeholder} />
         <ComboboxContent>
           <ComboboxEmpty>No items found.</ComboboxEmpty>
           <ComboboxList>
-            {(item) => (
-              <ComboboxItem key={item} value={item}>
-                {item}
+            {dropdownbox.options.map((o) => (
+              <ComboboxItem key={o.id} value={o.value}>
+                {o.value}
               </ComboboxItem>
-            )}
+            ))}
           </ComboboxList>
         </ComboboxContent>
       </Combobox>

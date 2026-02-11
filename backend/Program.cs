@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.Interfaces;
+using backend.Models;
 using backend.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ builder.Services.AddScoped<ITrackerRepo, TrackerRepo>();
 builder.Services.AddScoped<ITrackerComponentRepo, TrackerComponentRepo>();
 builder.Services.AddScoped<ITextboxRepo, TextboxRepo>();
 builder.Services.AddScoped<IDropdownRepo, DropdownRepo>();
+builder.Services.AddScoped<IDropdownOptionRepo, DropdownOptionRepo>();
 
 builder.Services.AddCors(options =>
 {
