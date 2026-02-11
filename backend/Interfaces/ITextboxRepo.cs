@@ -2,7 +2,6 @@
 
 namespace backend.Interfaces;
 
-public interface ITextboxRepo : IBaseRepo<TextboxComponent>
+public interface ITextboxRepo : IBaseComponentRepo<TextboxComponent>
 {
-    Task<List<TextboxComponent>> GetAllByTrackerId(int trackerId);
 }

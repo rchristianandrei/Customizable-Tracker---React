@@ -1,6 +1,6 @@
 import type { BaseComponent } from "./BaseComponent";
 
 export type DropdownboxType = BaseComponent & {
-  type: "Dropdownbox";
+  type: "Dropdown";
   maxCount: number;
 };

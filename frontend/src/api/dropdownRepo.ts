@@ -1,11 +1,11 @@
 import { api } from "@/api/axios";
 import type { DropdownboxType } from "@/types/tracker/components/Dropdownbox";
 
-const prefix = "/dropdownbox";
+const prefix = "/dropdown";
 
-export const dropdownboxRepo = {
+export const dropdownRepo = {
   Create: (trackerId: number) => {
-    return api.post<DropdownboxType>(`${prefix}/dropdownbox`, {
+    return api.post<DropdownboxType>(`${prefix}`, {
       trackerId: trackerId,
     });
   },

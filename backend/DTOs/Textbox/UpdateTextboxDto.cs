@@ -1,4 +1,6 @@
-﻿namespace backend.DTOs.TrackerComponent;
+﻿using backend.DTOs.TrackerComponent;
+
+namespace backend.DTOs.Textbox;
 
 public class UpdateTextboxDto : UpdateBaseDto
 {

@@ -6,8 +6,13 @@ import { TextboxSettings } from "./TextboxSettings";
 import { trackerComponentRepo } from "@/api/trackerComponentRepo";
 
 export function ComponentSettings() {
-  const { tracker, setTracker, selectedComponent, setSelectedComponent } =
-    useTracker();
+  const {
+    tracker,
+    setTracker,
+    selectedComponent,
+    setSelectedComponent,
+    onLoad,
+  } = useTracker();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSelectedComponent((c) => {
@@ -54,22 +59,12 @@ export function ComponentSettings() {
   }
 
   async function deleteComponent() {
-    if (!selectedComponent) return;
+    if (!tracker || !selectedComponent) return;
 
     try {
       await trackerComponentRepo.Delete(selectedComponent.id);
-
       setSelectedComponent(() => null);
-
-      setTracker((prev) => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          components: prev.components.filter(
-            (c) => c.id !== selectedComponent?.id,
-          ),
-        };
-      });
+      await onLoad(tracker.id);
     } catch (error) {
       console.log(error);
     }

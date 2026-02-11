@@ -9,10 +9,11 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TrackerController(ITrackerRepo trackerRepo, ITextboxRepo textboxRepo) : ControllerBase
+public class TrackerController(ITrackerRepo trackerRepo, ITextboxRepo textboxRepo, IDropdownRepo dropdownRepo) : ControllerBase
 {
     private readonly ITrackerRepo trackerRepo = trackerRepo;
     private readonly ITextboxRepo textboxRepo = textboxRepo;
+    private readonly IDropdownRepo dropdownRepo = dropdownRepo;
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -29,9 +30,11 @@ public class TrackerController(ITrackerRepo trackerRepo, ITextboxRepo textboxRep
         if (tracker == null) return NotFound();
 
         var textboxes = await this.textboxRepo.GetAllByTrackerId(tracker.Id);
+        var dropdowns = await this.dropdownRepo.GetAllByTrackerId(tracker.Id);
 
         var components = new List<BaseComponentDto>();
         components.AddRange([.. textboxes.Select(t => t.ToDto())]);
+        components.AddRange([.. dropdowns.Select(t => t.ToDto())]);
 
         var dto = new TrackerDto
         {
@@ -65,6 +68,19 @@ public class TrackerController(ITrackerRepo trackerRepo, ITextboxRepo textboxRep
         if (tracker == null) return NotFound();
 
         tracker.Name = value.Name;
+
+        foreach(var component in value.Components)
+        {
+            var entity = await this.textboxRepo.GetById(component.Id);
+
+            if (entity == null) continue;
+
+            entity.Name = component.Name;
+            entity.Placeholder = component.Placeholder;
+            entity.Width = component.Width;
+            entity.X = component.X;
+            entity.Y = component.Y;
+        }
 
         await this.trackerRepo.Save();
 

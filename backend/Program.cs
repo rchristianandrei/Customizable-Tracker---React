@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ITrackerRepo, TrackerRepo>();
 builder.Services.AddScoped<ITrackerComponentRepo, TrackerComponentRepo>();
 builder.Services.AddScoped<ITextboxRepo, TextboxRepo>();
+builder.Services.AddScoped<IDropdownRepo, DropdownRepo>();
 
 builder.Services.AddCors(options =>
 {

@@ -1,6 +1,7 @@
 ﻿using backend.Data;
 using backend.DTOs.TrackerComponent;
 using backend.Interfaces;
+using backend.Mapper;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,13 +32,14 @@ public class TextboxController(ITrackerRepo trackerRepo, ITextboxRepo textboxRep
         var textbox = new TextboxComponent()
         {
             Name = "Textbox",
+            Placeholder = "Placeholder",
             DateTimeCreated = DateTime.Now,
             TrackerId = value.TrackerId,
         };
 
         await this.textboxRepo.Create(textbox);
 
-        return Ok();
+        return Ok(textbox.ToDto());
     }
 
     [HttpPut("{id}")]

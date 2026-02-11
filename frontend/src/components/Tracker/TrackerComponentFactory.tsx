@@ -19,7 +19,7 @@ export function TrackerComponentFactory({
   }
 
   switch (component.type) {
-    case "Dropdownbox":
+    case "Dropdown":
       return (
         <Dropdownbox
           dropdownbox={component}
@@ -37,12 +37,4 @@ export function TrackerComponentFactory({
         ></Textbox>
       );
   }
-
-  return (
-    <Textbox
-      textbox={component}
-      clicked={clicked}
-      onClick={triggerSelectComponentEvent}
-    ></Textbox>
-  );
 }

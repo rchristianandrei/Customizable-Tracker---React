@@ -11,6 +11,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
     public DbSet<TextboxComponent> TextboxComponents => Set<TextboxComponent>();
 
+    public DbSet<DropdownComponent> DropdownComponents => Set<DropdownComponent>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Tracker

@@ -1,6 +1,4 @@
-﻿using backend.Models;
-
-namespace backend.DTOs.Tracker;
+﻿namespace backend.DTOs.Tracker;
 
 public class CreateTrackerDto
 {

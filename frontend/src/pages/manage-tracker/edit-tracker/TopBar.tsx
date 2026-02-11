@@ -1,12 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useTracker } from "@/contexts/TrackerContext";
-import { trackerComponentRepo } from "@/api/trackerComponentRepo";
 import { trackerRepo } from "@/api/trackerRepo";
 import { textboxRepo } from "@/api/textboxRepo";
-import type { TrackerComponentType } from "@/types/tracker/components/TrackerComponent";
+import { dropdownRepo } from "@/api/dropdownRepo";
 
 export function TopBar() {
-  const { tracker, setTracker } = useTracker();
+  const { tracker, onLoad } = useTracker();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -29,24 +28,14 @@ export function TopBar() {
 
   async function AddTextbox() {
     if (!tracker) return;
-    const result = await textboxRepo.Create(tracker.id);
-    const data = result.data;
-    AddComponent(data);
+    await textboxRepo.Create(tracker.id);
+    await onLoad(tracker.id);
   }
 
   async function AddDropdownbox() {
-    // if (!tracker) return;
-    // const result = await trackerComponentRepo.CreateDropdownbox(tracker.id);
-    // const data = result.data;
-    // console.log(data);
-    // AddComponent(data);
-  }
-
-  function AddComponent(component: TrackerComponentType) {
-    setTracker((t) => {
-      if (!t) return t;
-      return { ...t, components: [...t.components, component] };
-    });
+    if (!tracker) return;
+    await dropdownRepo.Create(tracker.id);
+    await onLoad(tracker.id);
   }
 
   async function SaveTracker() {
@@ -54,6 +43,7 @@ export function TopBar() {
 
     try {
       await trackerRepo.Update(tracker);
+      await onLoad(tracker.id);
     } catch (error) {
       console.log(error);
     }
