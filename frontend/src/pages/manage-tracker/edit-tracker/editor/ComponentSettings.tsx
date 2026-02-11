@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { useTracker } from "@/contexts/TrackerContext";
 import { TextboxSettings } from "./TextboxSettings";
 import { trackerComponentRepo } from "@/api/trackerComponentRepo";
+import { DropdownSettings } from "./dropdown/DropdownSettings";
 
 export function ComponentSettings() {
   const {
@@ -126,6 +127,9 @@ export function ComponentSettings() {
           </Field>
           {selectedComponent.type === "Textbox" && (
             <TextboxSettings textbox={selectedComponent}></TextboxSettings>
+          )}
+          {selectedComponent.type === "Dropdown" && (
+            <DropdownSettings dropdown={selectedComponent}></DropdownSettings>
           )}
           <div className="flex justify-center gap-5">
             <button

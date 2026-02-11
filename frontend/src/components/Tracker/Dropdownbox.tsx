@@ -15,8 +15,6 @@ type DropdownboxProps = {
   onClick?: () => void;
 };
 
-const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"];
-
 export function Dropdownbox({
   dropdownbox,
   clicked = false,
@@ -24,7 +22,7 @@ export function Dropdownbox({
 }: DropdownboxProps) {
   return (
     <BaseComponent clicked={clicked} component={dropdownbox} onClick={onClick}>
-      <Combobox items={frameworks}>
+      <Combobox items={dropdownbox.options}>
         <ComboboxInput placeholder={dropdownbox.placeholder} />
         <ComboboxContent>
           <ComboboxEmpty>No items found.</ComboboxEmpty>
