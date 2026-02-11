@@ -1,10 +1,14 @@
-﻿namespace backend.DTOs.TrackerComponent;
+﻿using backend.DTOs.Textbox;
+using System.Text.Json.Serialization;
 
+namespace backend.DTOs.TrackerComponent;
+
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+[JsonDerivedType(typeof(UpdateTextboxDto), "Textbox")]
+[JsonDerivedType(typeof(UpdateDropdownDto), "Dropdown")]
 public class UpdateBaseDto
 {
     public int Id { get; set; }
-
-    public string Type { get; set; } = string.Empty;
 
     public string Name { get; set; } = string.Empty;
 

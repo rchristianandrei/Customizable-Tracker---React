@@ -4,7 +4,8 @@ using backend.Models;
 
 namespace backend.Repositories;
 
-public class TrackerComponentRepo(AppDbContext context) : BaseRepo<BaseComponent>(context), ITrackerComponentRepo
+public class TrackerComponentRepo(AppDbContext context, ITextboxRepo textboxRepo, IDropdownRepo dropdownRepo) : BaseRepo<BaseComponent>(context), ITrackerComponentRepo
 {
-
+    private readonly ITextboxRepo textboxRepo = textboxRepo;
+    private readonly IDropdownRepo dropdownRepo = dropdownRepo;
 }

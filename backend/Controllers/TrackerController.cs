@@ -1,5 +1,7 @@
 ﻿using backend.DTOs;
+using backend.DTOs.Textbox;
 using backend.DTOs.Tracker;
+using backend.DTOs.TrackerComponent;
 using backend.Interfaces;
 using backend.Mapper;
 using backend.Models;
@@ -64,27 +66,38 @@ public class TrackerController(ITrackerRepo trackerRepo, ITextboxRepo textboxRep
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, [FromBody] UpdateTrackerDto value)
     {
-        var tracker = await this.trackerRepo.GetById(id);
+        var tracker = await this.trackerRepo.GetByIdIncludeAll(id);
         if (tracker == null) return NotFound();
 
         tracker.Name = value.Name;
 
-        foreach(var component in value.Components)
+        foreach(var componentDto in value.Components)
         {
-            var entity = await this.textboxRepo.GetById(component.Id);
+            var entity = tracker.Components.FirstOrDefault(c => c.Id == componentDto.Id);
 
             if (entity == null) continue;
 
-            entity.Name = component.Name;
-            entity.Placeholder = component.Placeholder;
-            entity.Width = component.Width;
-            entity.X = component.X;
-            entity.Y = component.Y;
+            entity.Name = componentDto.Name;
+            entity.Placeholder = componentDto.Placeholder;
+            entity.Width = componentDto.Width;
+            entity.X = componentDto.X;
+            entity.Y = componentDto.Y;
+
+            switch (entity)
+            {
+                case TextboxComponent textbox when componentDto is UpdateTextboxDto textboxDto:
+                    textbox.MaxLength = textboxDto.MaxLength;
+                    break;
+
+                case DropdownComponent dropdown when componentDto is UpdateDropdownDto dropdownDto:
+                    
+                    break;
+            }
         }
 
         await this.trackerRepo.Save();
 
-        return Ok(tracker);
+        return Ok();
     }
 
     [HttpDelete("{id}")]
