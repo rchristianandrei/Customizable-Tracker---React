@@ -7,7 +7,9 @@ export function Navbar() {
             <a href="/">Dashboard</a>
           </li>
           <li>
-            <a href="#">Submit Tracker</a>
+            <a href="/submit-tracker" target="_blank">
+              Submit Tracker
+            </a>
           </li>
           <li>
             <a href="/manage-tracker">Manage Tracker</a>

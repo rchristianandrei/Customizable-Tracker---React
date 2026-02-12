@@ -3,11 +3,13 @@ import { ManageTracker } from "@/pages/manage-tracker/ManageTracker";
 import { TrackerProvider } from "@/contexts/TrackerContext";
 import { EditTracker } from "@/pages/manage-tracker/edit-tracker/EditTracker";
 import { Dashboard } from "@/pages/dashboard/Dashboard";
+import { SubmitTracker } from "@/pages/submit-tracker/submit-tracker";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="submit-tracker" element={<SubmitTracker />}></Route>
         <Route path="manage-tracker">
           <Route path="" element={<ManageTracker />}></Route>
           <Route
@@ -19,7 +21,7 @@ function App() {
             }
           ></Route>
         </Route>
-        <Route path="/" element={<Dashboard></Dashboard>}></Route>
+        <Route path="/" element={<Dashboard />}></Route>
       </Routes>
     </BrowserRouter>
   );
