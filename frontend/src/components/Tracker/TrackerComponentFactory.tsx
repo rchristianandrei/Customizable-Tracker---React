@@ -1,21 +1,18 @@
 import { Textbox } from "@/components/Tracker/Textbox";
 import { Dropdownbox } from "@/components/Tracker/Dropdownbox";
-import { useTrackerState } from "@/contexts/TrackerContext";
 import type { TrackerComponentType } from "@/types/tracker/components/TrackerComponent";
 
 type TrackerComponentFactoryProps = {
   component: TrackerComponentType;
+  clicked: boolean;
   onComponentClick: () => void;
 };
 
 export function TrackerComponentFactory({
   component,
+  clicked = false,
   onComponentClick,
 }: TrackerComponentFactoryProps) {
-  const { selectedComponent } = useTrackerState();
-
-  const clicked = selectedComponent?.id === component.id;
-
   function triggerSelectComponentEvent() {
     onComponentClick();
   }

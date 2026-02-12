@@ -1,10 +1,18 @@
+import { ChooseTracker } from "@/components/Tracker/ChooseTracker";
 import { TrackerComponent } from "@/components/Tracker/Tracker";
-import { TrackerTypeDefaultValue } from "@/types/tracker/Tracker";
+import { useTracker } from "@/hooks/useTracker";
 
 export const SubmitTracker = () => {
+  const { tracker, getTracker } = useTracker();
+
+  const onSelectTracker = async (id: number) => {
+    await getTracker(id);
+  };
+
   return (
     <div className="h-screen flex justify-center items-center">
-      <TrackerComponent tracker={TrackerTypeDefaultValue}></TrackerComponent>
+      <ChooseTracker onSelectTracker={onSelectTracker}></ChooseTracker>
+      {tracker && <TrackerComponent tracker={tracker}></TrackerComponent>}
     </div>
   );
 };

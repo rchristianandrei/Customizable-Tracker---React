@@ -7,12 +7,14 @@ import {
 
 type TrackerProps = {
   tracker: TrackerType;
+  selectedComponentId?: number;
   style?: CSSProperties;
   onComponentClick?: (componentId: number) => void;
 };
 
 export function TrackerComponent({
   tracker,
+  selectedComponentId = 0,
   style,
   onComponentClick,
 }: TrackerProps) {
@@ -31,6 +33,7 @@ export function TrackerComponent({
         {tracker.components.map((c) => (
           <TrackerComponentFactory
             key={c.id}
+            clicked={selectedComponentId === c.id}
             component={c}
             onComponentClick={() =>
               onComponentClick ? onComponentClick(c.id) : null
