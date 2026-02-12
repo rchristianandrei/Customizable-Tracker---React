@@ -1,27 +1,14 @@
-import { trackerRepo } from "@/api/trackerRepo";
 import { Header } from "@/components/Header";
 import { Layout } from "@/components/Layout";
-import type { TrackerType } from "@/types/tracker/Tracker";
-import { useEffect, useState } from "react";
+import { useManageTrackers } from "@/hooks/useManageTrackers";
+import { useEffect } from "react";
 
 export function ManageTracker() {
-  const [trackers, setTrackers] = useState<TrackerType[]>([]);
+  const { trackers, getTrackers, createNew } = useManageTrackers();
 
   useEffect(() => {
-    async function OnLoad() {
-      const result = await trackerRepo.GetAll();
-      const data = result.data;
-      setTrackers(data);
-    }
-    OnLoad();
+    getTrackers();
   }, []);
-
-  async function CreateNew() {
-    const result = await trackerRepo.Create({ name: "Tracker name" });
-    const data = result.data;
-    console.log(data);
-    setTrackers((t) => [...t, data]);
-  }
 
   return (
     <Layout>
@@ -30,7 +17,7 @@ export function ManageTracker() {
         <button
           type="button"
           className="border border-blue-900 bg-blue-100 text-blue-900 px-3 py-1 cursor-pointer rounded"
-          onClick={CreateNew}
+          onClick={createNew}
         >
           Create New
         </button>
