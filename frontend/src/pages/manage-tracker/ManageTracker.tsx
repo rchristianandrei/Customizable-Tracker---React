@@ -41,7 +41,7 @@ export function ManageTracker() {
           >
             <span>{t.name}</span>
             <a
-              href={`/${t.id}`}
+              href={`manage-tracker/${t.id}`}
               className="bg-blue-100 text-blue-900 rounded p-2 cursor-pointer"
             >
               Open
