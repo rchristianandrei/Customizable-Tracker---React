@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { useTrackerState, useTrackerActions } from "@/contexts/TrackerContext";
+import {
+  useEditTrackerState,
+  useEditTrackerActions,
+} from "@/contexts/EditTrackerContext";
 import { trackerRepo } from "@/api/trackerRepo";
 import { textboxRepo } from "@/api/textboxRepo";
 import { dropdownRepo } from "@/api/dropdownRepo";
 
 export function TopBar() {
-  const { tracker } = useTrackerState();
-  const { getTracker } = useTrackerActions();
+  const { tracker } = useEditTrackerState();
+  const { getTracker } = useEditTrackerActions();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
 

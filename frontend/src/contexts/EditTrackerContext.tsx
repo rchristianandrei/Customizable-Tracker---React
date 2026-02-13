@@ -4,7 +4,7 @@ import type { TrackerComponentType } from "@/types/tracker/components/TrackerCom
 import { useTracker } from "@/hooks/useTracker";
 import { useComponent } from "@/hooks/useComponent";
 
-const TrackerStateContext = createContext<
+const EditTrackerStateContext = createContext<
   | {
       tracker: TrackerType | null;
       selectedComponent: TrackerComponentType | null;
@@ -12,7 +12,7 @@ const TrackerStateContext = createContext<
   | undefined
 >(undefined);
 
-const TrackerActionsContext = createContext<
+const EditTrackerActionsContext = createContext<
   | {
       setSelectedComponentId: React.Dispatch<
         React.SetStateAction<number | null>
@@ -27,7 +27,11 @@ const TrackerActionsContext = createContext<
   | undefined
 >(undefined);
 
-export function TrackerProvider({ children }: { children: React.ReactNode }) {
+export function EditTrackerProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { tracker, setTracker, getTracker, updateTracker } = useTracker();
   const {
     selectedComponentId,
@@ -67,26 +71,30 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <TrackerStateContext.Provider value={stateValue}>
-      <TrackerActionsContext.Provider value={actionsValue}>
+    <EditTrackerStateContext.Provider value={stateValue}>
+      <EditTrackerActionsContext.Provider value={actionsValue}>
         {children}
-      </TrackerActionsContext.Provider>
-    </TrackerStateContext.Provider>
+      </EditTrackerActionsContext.Provider>
+    </EditTrackerStateContext.Provider>
   );
 }
 
-export function useTrackerState() {
-  const context = useContext(TrackerStateContext);
+export function useEditTrackerState() {
+  const context = useContext(EditTrackerStateContext);
   if (!context) {
-    throw new Error("useTrackerState must be used within TrackerProvider");
+    throw new Error(
+      "useEditTrackerState must be used within EditTrackerProvider",
+    );
   }
   return context;
 }
 
-export function useTrackerActions() {
-  const context = useContext(TrackerActionsContext);
+export function useEditTrackerActions() {
+  const context = useContext(EditTrackerActionsContext);
   if (!context) {
-    throw new Error("useTrackerActions must be used within TrackerProvider");
+    throw new Error(
+      "useEditTrackerActions must be used within EditTrackerProvider",
+    );
   }
   return context;
 }

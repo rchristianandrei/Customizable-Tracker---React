@@ -14,7 +14,10 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useTrackerState, useTrackerActions } from "@/contexts/TrackerContext";
+import {
+  useEditTrackerState,
+  useEditTrackerActions,
+} from "@/contexts/EditTrackerContext";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -28,8 +31,8 @@ const formSchema = z.object({
 });
 
 export function CreateOption() {
-  const { tracker, selectedComponent } = useTrackerState();
-  const { updateComponent } = useTrackerActions();
+  const { tracker, selectedComponent } = useEditTrackerState();
+  const { updateComponent } = useEditTrackerActions();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

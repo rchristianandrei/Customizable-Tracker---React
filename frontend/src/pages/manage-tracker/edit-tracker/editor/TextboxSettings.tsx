@@ -1,7 +1,7 @@
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useTrackerActions } from "@/contexts/TrackerContext";
+import { useEditTrackerActions } from "@/contexts/EditTrackerContext";
 import type { TextboxType } from "@/types/tracker/components/Textbox";
 
 type TextboxSettingsProps = {
@@ -9,7 +9,7 @@ type TextboxSettingsProps = {
 };
 
 export function TextboxSettings({ textbox }: TextboxSettingsProps) {
-  const { updateComponent } = useTrackerActions();
+  const { updateComponent } = useEditTrackerActions();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     updateComponent((c) => {

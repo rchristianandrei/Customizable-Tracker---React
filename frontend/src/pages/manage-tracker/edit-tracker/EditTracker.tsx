@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useTrackerState, useTrackerActions } from "@/contexts/TrackerContext";
+import {
+  useEditTrackerState,
+  useEditTrackerActions,
+} from "@/contexts/EditTrackerContext";
 import { TrackerComponent } from "@/components/Tracker/Tracker";
 import { Layout } from "@/components/Layout";
 import { TopBar } from "@/pages/manage-tracker/edit-tracker/TopBar";
@@ -14,8 +17,8 @@ import {
 
 export function EditTracker() {
   const { id } = useParams();
-  const { tracker, selectedComponent } = useTrackerState();
-  const { setSelectedComponentId, getTracker } = useTrackerActions();
+  const { tracker, selectedComponent } = useEditTrackerState();
+  const { setSelectedComponentId, getTracker } = useEditTrackerActions();
 
   useEffect(() => {
     getTracker(Number(id));

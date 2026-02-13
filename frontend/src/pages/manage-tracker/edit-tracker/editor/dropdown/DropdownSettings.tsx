@@ -14,12 +14,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CreateOption } from "./CreateOption";
-import { useTrackerState, useTrackerActions } from "@/contexts/TrackerContext";
+import {
+  useEditTrackerState,
+  useEditTrackerActions,
+} from "@/contexts/EditTrackerContext";
 import { dropdownOptionRepo } from "@/api/dropdownOptionRepo";
 
 export function DropdownSettings() {
-  const { tracker, selectedComponent: dropdown } = useTrackerState();
-  const { updateComponent } = useTrackerActions();
+  const { tracker, selectedComponent: dropdown } = useEditTrackerState();
+  const { updateComponent } = useEditTrackerActions();
 
   if (!dropdown || dropdown.type !== "Dropdown") return;
 

@@ -1,11 +1,14 @@
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useTrackerState, useTrackerActions } from "@/contexts/TrackerContext";
+import {
+  useEditTrackerState,
+  useEditTrackerActions,
+} from "@/contexts/EditTrackerContext";
 
 export function TrackerSettings() {
-  const { tracker } = useTrackerState();
-  const { updateTracker } = useTrackerActions();
+  const { tracker } = useEditTrackerState();
+  const { updateTracker } = useEditTrackerActions();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateTracker((t) => ({

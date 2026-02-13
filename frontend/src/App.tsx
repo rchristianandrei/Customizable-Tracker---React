@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ManageTracker } from "@/pages/manage-tracker/ManageTracker";
-import { TrackerProvider } from "@/contexts/TrackerContext";
+import { EditTrackerProvider } from "@/contexts/EditTrackerContext";
 import { EditTracker } from "@/pages/manage-tracker/edit-tracker/EditTracker";
 import { Dashboard } from "@/pages/dashboard/Dashboard";
 import { SubmitTracker } from "@/pages/submit-tracker/submit-tracker";
@@ -15,9 +15,9 @@ function App() {
           <Route
             path=":id"
             element={
-              <TrackerProvider>
+              <EditTrackerProvider>
                 <EditTracker />
-              </TrackerProvider>
+              </EditTrackerProvider>
             }
           ></Route>
         </Route>

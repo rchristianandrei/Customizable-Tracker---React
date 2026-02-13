@@ -1,15 +1,18 @@
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useTrackerState, useTrackerActions } from "@/contexts/TrackerContext";
+import {
+  useEditTrackerState,
+  useEditTrackerActions,
+} from "@/contexts/EditTrackerContext";
 import { TextboxSettings } from "./TextboxSettings";
 import { trackerComponentRepo } from "@/api/trackerComponentRepo";
 import { DropdownSettings } from "./dropdown/DropdownSettings";
 
 export function ComponentSettings() {
-  const { selectedComponent } = useTrackerState();
+  const { selectedComponent } = useEditTrackerState();
   const { setSelectedComponentId, updateComponent, deleteComponent } =
-    useTrackerActions();
+    useEditTrackerActions();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     updateComponent((c) => ({ ...c, [e.target.name]: e.target.value }));
