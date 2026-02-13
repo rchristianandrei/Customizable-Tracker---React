@@ -8,29 +8,24 @@ import {
 } from "@/components/ui/combobox";
 import { BaseComponent } from "@/components/Tracker/BaseComponent";
 import { type DropdownboxType } from "@/types/tracker/components/Dropdownbox";
+import { useTrackerComponent } from "@/contexts/TrackerContext";
 
 type DropdownboxProps = {
   dropdownbox: DropdownboxType;
-  clicked?: boolean;
-  disabled?: boolean;
-  onClick?: () => void;
 };
 
-export function Dropdownbox({
-  dropdownbox,
-  clicked = false,
-  disabled = false,
-  onClick,
-}: DropdownboxProps) {
+export function Dropdownbox({ dropdownbox }: DropdownboxProps) {
+  const { isDisabled } = useTrackerComponent();
+
   return (
-    <BaseComponent clicked={clicked} component={dropdownbox} onClick={onClick}>
+    <BaseComponent component={dropdownbox}>
       <Combobox
         items={dropdownbox.options.map((o) => o.value)}
-        disabled={disabled}
+        disabled={isDisabled}
       >
         <ComboboxInput
           placeholder={dropdownbox.placeholder}
-          disabled={disabled}
+          disabled={isDisabled}
         />
         <ComboboxContent>
           <ComboboxEmpty>No items found.</ComboboxEmpty>

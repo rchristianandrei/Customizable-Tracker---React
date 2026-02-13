@@ -14,6 +14,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { TrackerComponentProvider } from "@/contexts/TrackerContext";
 
 export function EditTracker() {
   const { id } = useParams();
@@ -36,11 +37,13 @@ export function EditTracker() {
           <ResizablePanel minSize="50%" className="flex flex-col">
             <TopBar></TopBar>
             <div className="flex-1 flex items-center justify-center">
-              <TrackerComponent
-                tracker={tracker}
-                selectedComponentId={selectedComponent?.id}
-                onComponentClick={setSelectedComponentId}
-              ></TrackerComponent>
+              <TrackerComponentProvider>
+                <TrackerComponent
+                  tracker={tracker}
+                  onComponentClick={setSelectedComponentId}
+                  currentSelectedComponentId={selectedComponent?.id}
+                ></TrackerComponent>
+              </TrackerComponentProvider>
             </div>
           </ResizablePanel>
           <ResizableHandle />

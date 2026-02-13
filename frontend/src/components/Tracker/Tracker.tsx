@@ -6,21 +6,39 @@ import {
 } from "@/types/tracker/Tracker";
 import { Button } from "../ui/button";
 import { useStopwatch } from "@/hooks/useStopwatch";
+import { useTrackerComponent } from "@/contexts/TrackerContext";
 
 type TrackerProps = {
   tracker: TrackerType;
-  selectedComponentId?: number;
   style?: CSSProperties;
+  currentSelectedComponentId?: number | null;
   onComponentClick?: (componentId: number) => void;
 };
 
 export function TrackerComponent({
   tracker,
-  selectedComponentId = 0,
   style,
+  currentSelectedComponentId,
   onComponentClick,
 }: TrackerProps) {
+  const {
+    onSelectComponent,
+    setIsClicked: setSelectedComponentId,
+    setIsDisabled,
+  } = useTrackerComponent();
   const { start, formatTime, handleStart, handleReset, clean } = useStopwatch();
+
+  useEffect(() => {
+    setSelectedComponentId(currentSelectedComponentId ?? 0);
+  }, [currentSelectedComponentId]);
+
+  useEffect(() => {
+    if (onComponentClick) onComponentClick(onSelectComponent);
+  }, [onSelectComponent]);
+
+  useEffect(() => {
+    setIsDisabled(!start);
+  }, [start]);
 
   useEffect(() => {
     return clean;
@@ -51,15 +69,7 @@ export function TrackerComponent({
         style={{ width: `${tracker.width ?? TrackerTypeDefaultValue.width}px` }}
       >
         {tracker.components.map((c) => (
-          <TrackerComponentFactory
-            key={c.id}
-            clicked={selectedComponentId === c.id}
-            disabled={!start}
-            component={c}
-            onComponentClick={() =>
-              onComponentClick ? onComponentClick(c.id) : null
-            }
-          />
+          <TrackerComponentFactory key={c.id} component={c} />
         ))}
       </section>
       <section className="border-t border-foreground h-12 p-1 flex justify-center">

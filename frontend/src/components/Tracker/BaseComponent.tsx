@@ -2,24 +2,27 @@ import type React from "react";
 import { Field } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import type { BaseComponent } from "@/types/tracker/components/BaseComponent";
+import { useTrackerComponent } from "@/contexts/TrackerContext";
+import { useMemo } from "react";
 
 type BaseComponentProps = {
   children: React.ReactNode;
-  clicked?: boolean;
   component: BaseComponent;
-  onClick?: () => void;
 };
 
-export function BaseComponent({
-  children,
-  clicked,
-  component,
-  onClick,
-}: BaseComponentProps) {
+export function BaseComponent({ children, component }: BaseComponentProps) {
+  const { isClicked: selectedComponentId, setOnSelectComponent } =
+    useTrackerComponent();
+
+  const clicked = useMemo(
+    () => selectedComponentId === component.id,
+    [selectedComponentId],
+  );
+
   return (
     <Field
       className={`absolute border rounded gap-1 ${clicked ? "border-foreground" : "border-background"}`}
-      onClick={onClick}
+      onClick={() => setOnSelectComponent(component.id)}
       style={{
         width: `${component.width}px`,
         left: `${component.x}px`,

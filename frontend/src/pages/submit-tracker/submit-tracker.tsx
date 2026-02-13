@@ -1,5 +1,6 @@
 import { ChooseTracker } from "@/components/Tracker/ChooseTracker";
 import { TrackerComponent } from "@/components/Tracker/Tracker";
+import { TrackerComponentProvider } from "@/contexts/TrackerContext";
 import { useTracker } from "@/hooks/useTracker";
 
 export const SubmitTracker = () => {
@@ -12,7 +13,11 @@ export const SubmitTracker = () => {
   return (
     <div className="h-screen flex justify-center items-center">
       <ChooseTracker onSelectTracker={onSelectTracker}></ChooseTracker>
-      {tracker && <TrackerComponent tracker={tracker}></TrackerComponent>}
+      {tracker && (
+        <TrackerComponentProvider>
+          <TrackerComponent tracker={tracker}></TrackerComponent>
+        </TrackerComponentProvider>
+      )}
     </div>
   );
 };
